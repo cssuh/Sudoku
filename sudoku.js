@@ -32,38 +32,91 @@ console.log(exampleboard);
 // 
 
 //generate empty sudoku board
-var board = 
-[[null,null,null,null,null,null,null,null,null],
- [null,null,null,null,null,null,null,null,null],
- [null,null,null,null,null,null,null,null,null],
- [null,null,null,null,null,null,null,null,null],
- [null,null,null,null,null,null,null,null,null],
- [null,null,null,null,null,null,null,null,null],
- [null,null,null,null,null,null,null,null,null],
- [null,null,null,null,null,null,null,null,null],
- [null,null,null,null,null,null,null,null,null,]];
+
+var rows = 9, 
+	columns = 9,
+	board = [];
+
+	for (var i = 0; i < rows; i++) {
+		var stuff = [];
+		for (var j = 0; j < columns; j++) {
+			stuff.push(0);
+		}
+		board.push(stuff);
+	}
+
+console.log(board);
+
 
 //generate list of free cells on sudoku board
 var free_cells = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]
 count = 0;
-while(count < 81){
-	free_cells[count] = count + 1;
-	count += 1;
-}
+// while(count < 81){
+// 	free_cells[count] = count + 1;
+// 	count += 1;
+// }
 
 console.log(free_cells);
 
-//generate random number
 
-number = Math.floor((Math.random() * 9) + 1);
-if (number < 1 | number > 9){
-	number = Math.floor((Math.random() * 9) + 1);
+
+
+// board[0][0] = number;
+
+for (var i = 0; i < board.length; i++) {
+	//possibilities for rows
+	var r = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+	for (var j = 0; j < board[i].length; j++) {
+			//possibilities for columns
+		var	found = [1, 2, 3, 4, 5, 6, 7, 8, 9],
+			index = i;
+		while(index > 0){
+			index--;
+			found.splice(found.indexOf(board[index][j]),1);
+
+
+		}
+		var possibilities = found.filter(function(n){
+			return r.indexOf(n) > -1;
+		});
+		number = possibilities[generateNumber(0, possibilities.length)];
+		board[i][j] = number;
+		r.splice(r.indexOf(number),1);
+
+	}
 }
-console.log(number);
 
 
 
 //randomly place in one of the remaining free cells the number on sudoku board in accordance to the sudoku rules
+for(i = 0; i <= 81; i++){
+	// cell = Math.floor(Math.random() * free_cells.length());
+	console.log(cell);
+}
+
+
+
+function printBoard(){
+	var table = document.createElement("table");
+	for (var i = 0; i < board.length; i++) {
+		var row = document.createElement("tr");
+		table.appendChild(row);
+		var box;
+		for (var j = 0; j < board[i].length; j++) {
+			box = document.createElement("td");
+			box.innerText = board[i][j] === 0 ? "": board[i][j];
+			row.appendChild(box);
+		}
+	}
+	document.body.appendChild(table);
+}
+
+
+//sudoku rules:
+//1. unique number for the row
+//2. unique number for the column
+//3. unique number for the 3x3 box
+
 
 
 //check that there is still at least one solution for the sudoku board (do this using backtracking solver)
@@ -72,8 +125,14 @@ console.log(number);
 //do this until the board is full
 
 
-
-
+/**
+ * Generates random number to place on Sudoku board
+ */
+function generateNumber(min, max){
+	//generate random number
+	number = Math.floor((Math.random() * max) + min);
+	return number;
+}
 
 function check(number, position){
 

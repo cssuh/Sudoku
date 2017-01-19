@@ -1,11 +1,40 @@
 <html>
 <head>
 	<title></title>
+	<style>
+	table{
+		border-collapse: collapse;
+		text-align: center;
+		vertical-align: middle;
+		font-size: 18pt;
+	}
+	td{
+		border: 1px solid black;
+		height: 40px;
+		width: 40px;
+	}
+	td:nth-child(3),
+	td:nth-child(6)
+	{
+		border-right: 2.5px solid black;
+	}
+	tr:nth-child(3),
+	tr:nth-child(6)
+	{
+		border-bottom: 2.5px solid black;
+	}
+
+
+	</style>
 </head>
 
 <body>
 
 <script src="sudoku.js"></script>
+<script> 
+	printBoard();
+</script>
+
 
 </body>
 
